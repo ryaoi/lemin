@@ -121,7 +121,8 @@ SRC		= ./ft_atoi.c \
 		  ./ft_countspace.c \
 		  ./ft_strerase.c \
 		  ./ft_strerasef.c \
-		  ./ft_strisalpha.c
+		  ./ft_strisalpha.c \
+		  ./ft_str2del.c
 
 OBJ		= $(SRC:.c=.o)
 

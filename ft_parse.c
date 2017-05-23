@@ -15,7 +15,6 @@
 int			valid_parse_room(t_lem *lem, char *line, int *room_def)
 {
 	char	**tab;
-	int		i;
 
 	if (line[0] != '-' && line[ft_strlen(line) - 1] != '-'
 		&& check_one_line(line) == 1)
@@ -29,13 +28,7 @@ int			valid_parse_room(t_lem *lem, char *line, int *room_def)
 			ft_printf("Already exist...");
 		else
 			ft_printf("Invalid name\n");
-		i = 0;
-		while (tab[i] != 0)
-		{
-			free(tab[i]);
-			i++;
-		}
-		free(tab);
+		ft_str2del(&tab);
 		*room_def = 1;
 		return (1);
 	}

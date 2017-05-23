@@ -78,6 +78,7 @@ int					ft_str_is_digit(char *str);
 char				*ft_strerase(char *str, char c);
 char				*ft_strerasef(char *str, char c);
 int					ft_strisalpha(char *str);
+void				ft_str2del(char ***tab);
 
 typedef	struct		s_list
 {

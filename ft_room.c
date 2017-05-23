@@ -16,10 +16,12 @@ void		new_room(t_room **begin, char *line, int start, int end)
 {
 	t_room	*new;
 	t_room	*ptr;
+	char	**tab;
 
+	tab = ft_strsplit(line, ' ');
 	if (!(new = malloc(sizeof(t_room))))
 		exit(EXIT_FAILURE);
-	new->name = ft_strdup(line);
+	new->name = ft_strdup(tab[0]);
 	new->start = start;
 	new->end = end;
 	new->visited = 0;
@@ -34,6 +36,7 @@ void		new_room(t_room **begin, char *line, int start, int end)
 			ptr = ptr->next;
 		ptr->next = new;
 	}
+	ft_str2del(&tab);
 }
 
 void		free_room(t_room **begin)
