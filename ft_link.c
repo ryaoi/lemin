@@ -74,15 +74,14 @@ static void tick_visited(t_room **ptr, t_link *link, t_room *origin, t_room *end
 	ptr_link = link;
 	if (end->visited == 1)
 		return ;
-	ft_printf("func starts with ptr:%s\n", (*ptr)->name);
 	(*ptr)->visited = 1;
+	ft_printf("func starts with ptr:%s\n", (*ptr)->name);
 	while (ptr_link != NULL)
 	{
-		if (ft_strcmp((*ptr)->name,ptr_link->src) == 0)
+		if (ft_strcmp((*ptr)->name,ptr_link->src) == 0 ||
+			ft_strcmp((*ptr)->name,ptr_link->dest) == 0)
 		{
-			dest_room = origin;
-			while (ft_strcmp(dest_room->name, ptr_link->dest) != 0)
-				dest_room = dest_room->next;
+			dest_room = give_the_room(ptr, ptr_link, origin);
 			if (dest_room->visited == 0)
 				tick_visited(&(dest_room), link, origin, end);
 		}

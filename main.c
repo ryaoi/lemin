@@ -28,18 +28,21 @@ void			get_room_tube(t_lem *lem, char *line)
 			break ;
 		if (line != NULL)
 		{
+			new_line(&(lem->sentence), line);
 			if (ft_strcmp(line, "##start") == 0)
 				start = 1;
 			else if (ft_strcmp(line, "##end") == 0)
 				end = 1;
 			else if (line[0] =='#');
 			else if (ft_strchr(line, '-') == NULL && room_def == 0
-					&& exist_room(lem->room, line) == 0);
+					&& exist_room(lem->room, line) == 0 && line[0] != 'L')
 			{
 				new_room(&(lem->room), line, start, end);
 				start = 0;
 				end = 0;
 			}
+			else if (exist_room(lem->room, line) == 1 && room_def == 0)
+				ft_printf("Can't duplicate a room\n");
 			else if (ft_strchr(line, '-') == NULL && room_def == 1)
 				ft_printf("You can not define a room anymore\n");
 			else if (valid_parse_room(lem, line, &room_def) == 0)
@@ -47,6 +50,8 @@ void			get_room_tube(t_lem *lem, char *line)
 			ft_strdel(&line);
 		}
 	}
+	if (line != NULL)
+		ft_strdel(&line);
 }
 
 int				main(void)
@@ -56,12 +61,23 @@ int				main(void)
 
 	line = NULL;
 	lem.room_nb = 0;
+	lem.sentence = NULL;
 	lem.link = NULL;
+	//lem.room = NULL;
 	get_next_line(0, &line);
 	check_ants(&lem, line);
+	new_line(&(lem.sentence), line);
 	ft_strdel(&line);
+	//erase after
 	get_room_tube(&lem, line);
-
+	if (lem.link == NULL || lem.room == NULL)
+	{
+		ft_printf("Error\n");
+		exit(0);
+	}
+	assign_start_end_room(&lem);
+	init_start(&lem);
+	/*
 	//printing tool
 	t_room	*ptr;
 	for (ptr = lem.room;ptr != NULL;ptr = ptr->next)
@@ -70,22 +86,25 @@ int				main(void)
 	for (ptr_link = lem.link;ptr_link != NULL;ptr_link = ptr_link->next)
 		ft_printf("src:%10s --- dest:%-10s\n", ptr_link->src, ptr_link->dest);
 	//end printing tool
-
-	assign_start_end_room(&lem);
+	*/
 	if (check_start_end(lem.room) == 1 && check_link_start_end(&lem) == 1)
 	{
 		//debug tool
+		t_room *ptr;
 		for (ptr = lem.room;ptr != NULL;ptr = ptr->next)
 			ft_printf("room:%-10s\tstart:%d\tend:%d\tvisited:%d\n", ptr->name, ptr->start, ptr->end, ptr->visited);
 		//debug end
 
 		ft_printf("good\n");
+		print_all_line(lem.sentence);
 		reset_visited(&lem);
+		shortest_path_num(&lem);
 	}
 	else
 		not_valid_input(&lem);
 	if (line != NULL)
 		ft_strdel(&line);
+	free_line(&(lem.sentence));
 	free_room(&(lem.room));
 	free_link(&(lem.link));
 	return (0);

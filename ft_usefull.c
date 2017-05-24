@@ -41,3 +41,41 @@ void 		reset_visited(t_lem *lem)
 		ptr = ptr->next;
 	}
 }
+
+void 		init_start(t_lem *lem)
+{
+	t_room	*ptr;
+	char	*tmp;
+
+	ptr = lem->room;
+	while (ptr->start != 1)
+	 	ptr = ptr->next;
+	if (ptr == lem->room)
+		return ;
+	lem->room->start = 1;
+	ptr->start = 0;
+	tmp = ft_strdup(lem->room->name);
+	free(lem->room->name);
+	lem->room->name = ft_strdup(ptr->name);
+	free(ptr->name);
+	ptr->name = ft_strdup(tmp);
+	ft_strdel(&tmp);
+}
+
+t_room		*give_the_room(t_room **ptr, t_link *ptr_link, t_room *origin)
+{
+	t_room	*dest_room;
+
+	dest_room = origin;
+	if (ft_strcmp((*ptr)->name,ptr_link->src) == 0)
+	{
+		while (ft_strcmp(dest_room->name, ptr_link->dest) != 0)
+			dest_room = dest_room->next;
+	}
+	else
+	{
+		while (ft_strcmp(dest_room->name, ptr_link->src) != 0)
+			dest_room = dest_room->next;
+	}
+	return (dest_room);
+}

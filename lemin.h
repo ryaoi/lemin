@@ -33,11 +33,18 @@ typedef struct		s_link
 	struct s_link	*prev;
 }					t_link;
 
+typedef struct		s_line
+{
+	char			*line;
+	struct s_line	*next;
+}					t_line;
+
 typedef	struct		s_lem
 {
 	int				ants;
 	t_room			*room;
 	t_link			*link;
+	t_line			*sentence;
 	t_room			*start_room;
 	t_room			*end_room;
 	int				room_nb;
@@ -57,5 +64,13 @@ void 				assign_start_end_room(t_lem *lem);
 void     			not_valid_input(t_lem *lem);
 void    			check_ants(t_lem *lem, char *line);
 void 				reset_visited(t_lem *lem);
+int					exist_room(t_room *origin, char *name);
+int					shortest_path_num(t_lem *lem);
+void 				init_start(t_lem *lem);
+t_room				*give_the_room(t_room **ptr,
+					t_link *ptr_link, t_room *origin);
+void				new_line(t_line **begin, char *line);
+void				free_line(t_line **begin);
+void        		print_all_line(t_line *sentence);
 
 #endif
