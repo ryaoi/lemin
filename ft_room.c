@@ -54,6 +54,20 @@ void		free_room(t_room **begin)
 	}
 }
 
+int			exist_room(t_room *origin, char *name)
+{
+	t_room *ptr;
+
+	ptr = origin;
+	while (ptr != NULL)
+	{
+		if (ft_strcmp(ptr->name, name) == 0)
+			return (1);
+		ptr = ptr->next;
+	}
+	return (0);
+}
+
 int			check_room(char *str1, char *str2, t_room *list)
 {
 	int		check1;
