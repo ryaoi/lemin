@@ -29,3 +29,15 @@ int			check_one_line(char *str)
 		return (1);
 	return (0);
 }
+
+void 		reset_visited(t_lem *lem)
+{
+	t_room	*ptr;
+
+	ptr = lem->room;
+	while (ptr != NULL)
+	{
+		ptr->visited = 0;
+		ptr = ptr->next;
+	}
+}

@@ -33,7 +33,8 @@ void			get_room_tube(t_lem *lem, char *line)
 			else if (ft_strcmp(line, "##end") == 0)
 				end = 1;
 			else if (line[0] =='#');
-			else if (ft_strchr(line, '-') == NULL && room_def == 0)
+			else if (ft_strchr(line, '-') == NULL && room_def == 0
+					&& exist_room(lem->room, line) == 0);
 			{
 				new_room(&(lem->room), line, start, end);
 				start = 0;
@@ -57,13 +58,7 @@ int				main(void)
 	lem.room_nb = 0;
 	lem.link = NULL;
 	get_next_line(0, &line);
-	if (line != NULL && line[0] != '-')
-		lem.ants = ft_atoi(line);
-	if (lem.ants <= 0 || line == NULL)
-	{
-		ft_printf("Without ants, this program won't execute.\n");
-		return (0);
-	}
+	check_ants(&lem, line);
 	ft_strdel(&line);
 	get_room_tube(&lem, line);
 
@@ -85,15 +80,10 @@ int				main(void)
 		//debug end
 
 		ft_printf("good\n");
+		reset_visited(&lem);
 	}
 	else
-	{
-		if (check_start_end(lem.room) == 1)
-			ft_printf("Start and end are not linked.\n");
-		else
-			ft_printf("Missing start, end or both.\n");
-		exit(EXIT_FAILURE);
-	}
+		not_valid_input(&lem);
 	if (line != NULL)
 		ft_strdel(&line);
 	free_room(&(lem.room));

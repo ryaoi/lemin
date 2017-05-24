@@ -22,6 +22,7 @@ void		new_link(t_link **begin, char *src, char *dest)
 	new->src = ft_strdup(src);
 	new->dest = ft_strdup(dest);
 	new->next = NULL;
+	new->prev = NULL;
 	if (*begin == NULL)
 		*begin = new;
 	else
@@ -30,6 +31,7 @@ void		new_link(t_link **begin, char *src, char *dest)
 		while (ptr->next != NULL)
 			ptr = ptr->next;
 		ptr->next = new;
+		new->prev = ptr;
 	}
 }
 

@@ -20,7 +20,8 @@ SRC		= main.c \
 		  ft_link.c \
 		  ft_parse.c \
 		  ft_room.c \
-		  ft_usefull.c
+		  ft_usefull.c \
+		  ft_error.c
 
 OBJ		= $(SRC:.c=.o)
 

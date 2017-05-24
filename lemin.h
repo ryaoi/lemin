@@ -30,6 +30,7 @@ typedef struct		s_link
 	char			*src;
 	char			*dest;
 	struct s_link	*next;
+	struct s_link	*prev;
 }					t_link;
 
 typedef	struct		s_lem
@@ -53,5 +54,8 @@ int					check_start_end(t_room *begin);
 int					check_exist_link(char *str1, char *str2, t_link *link);
 int					check_link_start_end(t_lem *lem);
 void 				assign_start_end_room(t_lem *lem);
+void     			not_valid_input(t_lem *lem);
+void    			check_ants(t_lem *lem, char *line);
+void 				reset_visited(t_lem *lem);
 
 #endif
