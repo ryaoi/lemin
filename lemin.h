@@ -42,6 +42,7 @@ typedef struct		s_line
 typedef	struct		s_lem
 {
 	int				ants;
+	int				short_path_num;
 	t_room			*room;
 	t_link			*link;
 	t_line			*sentence;
@@ -67,10 +68,11 @@ void 				reset_visited(t_lem *lem);
 int					exist_room(t_room *origin, char *name);
 int					shortest_path_num(t_lem *lem);
 void 				init_start(t_lem *lem);
-t_room				*give_the_room(t_room **ptr,
+t_room				*give_the_room(char *name,
 					t_link *ptr_link, t_room *origin);
 void				new_line(t_line **begin, char *line);
 void				free_line(t_line **begin);
 void        		print_all_line(t_line *sentence);
+int					check_name_visited(char *name, t_room *origin);
 
 #endif

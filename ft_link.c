@@ -81,7 +81,7 @@ static void tick_visited(t_room **ptr, t_link *link, t_room *origin, t_room *end
 		if (ft_strcmp((*ptr)->name,ptr_link->src) == 0 ||
 			ft_strcmp((*ptr)->name,ptr_link->dest) == 0)
 		{
-			dest_room = give_the_room(ptr, ptr_link, origin);
+			dest_room = give_the_room((*ptr)->name, ptr_link, origin);
 			if (dest_room->visited == 0)
 				tick_visited(&(dest_room), link, origin, end);
 		}

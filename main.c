@@ -107,5 +107,6 @@ int				main(void)
 	free_line(&(lem.sentence));
 	free_room(&(lem.room));
 	free_link(&(lem.link));
+	//while (1);
 	return (0);
 }
