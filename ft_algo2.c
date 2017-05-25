@@ -80,29 +80,7 @@ t_path           *optimised_path(t_lem *lem, t_path *path)
     append = NULL;
 
     if (loop >= lem->ants + lem->short_path_num - 1)
-    {
-        //debug tool
-        t_path     *wala;
-        t_line      *wolo;
-
-        wala = path;
-        ft_printf("+--------------+\nthis is for the return path\n");
-        while (wala != NULL)
-        {
-            wolo = wala->line;
-            while (wolo != NULL)
-            {
-                ft_printf("%s-", wolo->line);
-                wolo = wolo->next;
-            }
-            ft_printf("\n");
-            wala = wala->next;
-        }
-        ft_printf("+--------------+\n");
-        ///end debug tool
-        ft_printf("finished looping\n");
         return (path);
-    }
     while (ptr_path != NULL)
     {
         if (ft_strcmp(ptr_path->ptr_end->line, lem->end_room->name) == 0)
@@ -126,8 +104,7 @@ t_path           *optimised_path(t_lem *lem, t_path *path)
     }
     loop++;
     free_path(&path);
-    optimised_path(lem, append);
-    return (NULL); //wut
+    return (optimised_path(lem, append));
 }
 
 void            solver(t_lem *lem)
@@ -140,6 +117,7 @@ void            solver(t_lem *lem)
     new_path(&path, lem->start_room->name);
     lem->start_room->visited = 1;
     ft_printf("total loop:%d\n", lem->left_ants + lem->short_path_num - 1);
+    // this should be less than 65507
     ret = optimised_path(lem, path);
     //then add all the path which got t_path->end = 1;
     if (ret == NULL)
@@ -152,7 +130,6 @@ void            solver(t_lem *lem)
         exit (0);
     }
     //debug
-    ft_printf("not nulll\n");
     t_path  *ptr;
     t_line  *ptr_line;
     ptr = ret;
@@ -161,6 +138,7 @@ void            solver(t_lem *lem)
         if (ptr->end == 1)
         {
             ptr_line = ptr->line;
+            ft_printf("step:%d\t", ptr->step);
             while (ptr_line != NULL)
             {
                 ft_printf("%s---", ptr_line->line);
