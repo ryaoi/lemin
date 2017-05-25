@@ -22,8 +22,10 @@ SRC		= main.c \
 		  ft_room.c \
 		  ft_usefull.c \
 		  ft_error.c \
-		  ft_algo.c \
-		  ft_line.c
+		  ft_algo1.c \
+		  ft_algo2.c \
+		  ft_line.c \
+		  ft_path.c
 
 OBJ		= $(SRC:.c=.o)
 

@@ -75,7 +75,6 @@ static void tick_visited(t_room **ptr, t_link *link, t_room *origin, t_room *end
 	if (end->visited == 1)
 		return ;
 	(*ptr)->visited = 1;
-	ft_printf("func starts with ptr:%s\n", (*ptr)->name);
 	while (ptr_link != NULL)
 	{
 		if (ft_strcmp((*ptr)->name,ptr_link->src) == 0 ||

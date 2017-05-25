@@ -99,6 +99,8 @@ int				main(void)
 		print_all_line(lem.sentence);
 		reset_visited(&lem);
 		shortest_path_num(&lem);
+		reset_visited(&lem);
+		solver(&lem);
 	}
 	else
 		not_valid_input(&lem);

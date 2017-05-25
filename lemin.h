@@ -39,9 +39,28 @@ typedef struct		s_line
 	struct s_line	*next;
 }					t_line;
 
+typedef struct		s_tick
+{
+	t_link	    *ptr_link;
+	t_room	    *dest_room;
+	t_line		*ptr_recur;
+	t_line		*ptr_name;
+}					t_tick;
+
+typedef struct		s_path
+{
+	t_line			*line;
+	struct s_path	*next;
+	int				end;
+	int				step;
+	t_line			*ptr_end;
+}					t_path;
+
 typedef	struct		s_lem
 {
 	int				ants;
+	int				exited_ants;
+	int				left_ants;
 	int				short_path_num;
 	t_room			*room;
 	t_link			*link;
@@ -74,5 +93,11 @@ void				new_line(t_line **begin, char *line);
 void				free_line(t_line **begin);
 void        		print_all_line(t_line *sentence);
 int					check_name_visited(char *name, t_room *origin);
+void        		new_path(t_path **begin, char *start);
+void        		add_path(t_path **path, char *room);
+void        		copy_add_path(t_path **begin, t_path *old, char *room);
+void        		free_path(t_path **origin);
+void            	solver(t_lem *lem);
+void        		copy_path(t_path **begin, t_path *old);
 
 #endif
