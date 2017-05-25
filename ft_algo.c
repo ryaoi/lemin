@@ -81,5 +81,5 @@ int			      shortest_path_num(t_lem *lem)
 			return (1);
 		ptr = ptr->next;
 	}
-	return (ret);
+	return (lem->short_path_num);
 }
