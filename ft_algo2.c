@@ -12,24 +12,62 @@
 
 #include "lemin.h"
 
-static char		*valid_link(char *cmp, t_link *ptr_link, t_room *origin)
+static char		*valid_link(char *cmp, t_link *ptr_link, t_room **origin, t_lem *lem)
+{
+    t_room		*ptr;
+
+    ft_printf("cmp:%s\t%s-%s\n", cmp, ptr_link->src, ptr_link->dest);
+	if ((ft_strcmp(cmp, ptr_link->src) == 0 &&
+		check_name_visited(ptr_link->dest, *origin) == 0)
+        || (ft_strcmp(cmp, ptr_link->src) == 0 &&
+            ft_strcmp(lem->end_room->name, ptr_link->dest) == 0))
+    {
+        ptr = *origin;
+        ft_printf("ptr_link->dest:%s\n", ptr_link->dest);
+        while (ft_strcmp(ptr_link->dest, ptr->name) != 0)
+            ptr = ptr->next;
+        return (ptr_link->dest);
+    }
+	if ((ft_strcmp(cmp, ptr_link->dest) == 0 &&
+		check_name_visited(ptr_link->src, *origin) == 0)
+        || (ft_strcmp(cmp, ptr_link->dest) == 0 &&
+            ft_strcmp(lem->end_room->name, ptr_link->src) == 0))
+    {
+        ptr = *origin;
+        ft_printf("ptr_link->src is:%s\n", ptr_link->src);
+        while (ft_strcmp(ptr_link->src, ptr->name) != 0)
+            ptr = ptr->next;
+        return (ptr_link->src);
+    }
+    ft_printf("---returned NULL!\n");
+	return (NULL);
+}
+
+static char		*valid_link_visited(char *cmp, t_link *ptr_link, t_room **origin,
+                                    t_lem *lem)
 {
     t_room		*ptr;
 
 	if ((ft_strcmp(cmp, ptr_link->src) == 0 &&
-		check_name_visited(ptr_link->dest, origin) == 0))
+		check_name_visited(ptr_link->dest, *origin) == 0)
+        || (ft_strcmp(cmp, ptr_link->src) == 0 &&
+            ft_strcmp(lem->end_room->name, ptr_link->dest) == 0))
     {
-        ptr = origin;
-        while (ft_strcmp(cmp, ptr->name) != 0)
+        ptr = *origin;
+        ft_printf("ptr_link->dest:%s\n", ptr_link->dest);
+        while (ft_strcmp(ptr_link->dest, ptr->name) != 0)
             ptr = ptr->next;
         ptr->visited = 1;
         return (ptr_link->dest);
     }
 	if ((ft_strcmp(cmp, ptr_link->dest) == 0 &&
-		check_name_visited(ptr_link->src, origin) == 0))
+		check_name_visited(ptr_link->src, *origin) == 0)
+        || (ft_strcmp(cmp, ptr_link->dest) == 0 &&
+            ft_strcmp(lem->end_room->name, ptr_link->src) == 0))
     {
-        ptr = origin;
-        while (ft_strcmp(cmp, ptr->name) != 0)
+        ptr = *origin;
+        ft_printf("ptr_link->src is:%s\n", ptr_link->src);
+        while (ft_strcmp(ptr_link->src, ptr->name) != 0)
             ptr = ptr->next;
         ptr->visited = 1;
         return (ptr_link->src);
@@ -55,7 +93,7 @@ t_path           *optimised_path(t_lem *lem, t_path *path)
     ft_printf("+--------------+\nstep:%d\n", loop);
     while (wala != NULL)
     {
-        wolo = wala->ptr_end;
+        wolo = wala->line;
         while (wolo != NULL)
         {
             ft_printf("%s-", wolo->line);
@@ -75,60 +113,45 @@ t_path           *optimised_path(t_lem *lem, t_path *path)
     {
         if (ft_strcmp(ptr_path->ptr_end->line, lem->end_room->name) == 0)
         {
-            copy_path(&append, ptr_path);
             ptr_path->end = 1;
+            copy_path(&append, ptr_path);
             ptr_path = ptr_path->next;
-            ft_printf("arrived to the end.\n");
             continue;
         }
         ptr_link = lem->link;
         while (ptr_link != NULL)
         {
-            if (valid_link(ptr_path->ptr_end->line, ptr_link, lem->room) != NULL)
-                copy_add_path(&append, ptr_path, valid_link(ptr_path->ptr_end->line,
-                            ptr_link, lem->room));
+            if (valid_link(ptr_path->ptr_end->line, ptr_link, &(lem->room), lem) != NULL)
+            {
+                copy_add_path(&append, ptr_path, valid_link_visited(ptr_path->ptr_end->line,
+                            ptr_link, &(lem->room), lem));
+            }
             ptr_link = ptr_link->next;
         }
         ptr_path = ptr_path->next;
     }
     loop++;
-    //debug
-    wala = append;
-    ft_printf("|||||||||||||||\nstep:%d\n", loop);
-    while (wala != NULL)
-    {
-        wolo = wala->line;
-        while (wolo != NULL)
-        {
-            ft_printf("%s-", wolo->line);
-            wolo = wolo->next;
-        }
-        ft_printf("\n");
-        wala = wala->next;
-    }
-    ft_printf("|||||||||||||||\n");
-
-    //end debug
-    ft_printf("recursion!\n");
-    optimised_path(lem, append);
     free_path(&path);
+    optimised_path(lem, append);
     return (NULL);
 }
 
 void            solver(t_lem *lem)
 {
     t_path      *path;
-//    int         i;
-//    int         size;
 
-    ft_printf("solver!\n");
     path = NULL;
     lem->left_ants = lem->ants;
     new_path(&path, lem->start_room->name);
+    lem->start_room->visited = 1;
     ft_printf("total loop:%d\n", lem->ants + lem->short_path_num - 1);
     path = optimised_path(lem, path);
     if (path == NULL)
-    {
+    {	//debug tool
+		t_room *ptr;
+		for (ptr = lem->room;ptr != NULL;ptr = ptr->next)
+			ft_printf("room:%-10s\tstart:%d\tend:%d\tvisited:%d\n", ptr->name, ptr->start, ptr->end, ptr->visited);
+		//debug end
         ft_printf("got null and this is not good\n");
         exit (0);
     }
