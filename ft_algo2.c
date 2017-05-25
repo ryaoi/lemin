@@ -16,14 +16,12 @@ static char		*valid_link(char *cmp, t_link *ptr_link, t_room **origin, t_lem *le
 {
     t_room		*ptr;
 
-    ft_printf("cmp:%s\t%s-%s\n", cmp, ptr_link->src, ptr_link->dest);
 	if ((ft_strcmp(cmp, ptr_link->src) == 0 &&
 		check_name_visited(ptr_link->dest, *origin) == 0)
         || (ft_strcmp(cmp, ptr_link->src) == 0 &&
             ft_strcmp(lem->end_room->name, ptr_link->dest) == 0))
     {
         ptr = *origin;
-        ft_printf("ptr_link->dest:%s\n", ptr_link->dest);
         while (ft_strcmp(ptr_link->dest, ptr->name) != 0)
             ptr = ptr->next;
         return (ptr_link->dest);
@@ -34,12 +32,10 @@ static char		*valid_link(char *cmp, t_link *ptr_link, t_room **origin, t_lem *le
             ft_strcmp(lem->end_room->name, ptr_link->src) == 0))
     {
         ptr = *origin;
-        ft_printf("ptr_link->src is:%s\n", ptr_link->src);
         while (ft_strcmp(ptr_link->src, ptr->name) != 0)
             ptr = ptr->next;
         return (ptr_link->src);
     }
-    ft_printf("---returned NULL!\n");
 	return (NULL);
 }
 
@@ -54,7 +50,6 @@ static char		*valid_link_visited(char *cmp, t_link *ptr_link, t_room **origin,
             ft_strcmp(lem->end_room->name, ptr_link->dest) == 0))
     {
         ptr = *origin;
-        ft_printf("ptr_link->dest:%s\n", ptr_link->dest);
         while (ft_strcmp(ptr_link->dest, ptr->name) != 0)
             ptr = ptr->next;
         ptr->visited = 1;
@@ -66,7 +61,6 @@ static char		*valid_link_visited(char *cmp, t_link *ptr_link, t_room **origin,
             ft_strcmp(lem->end_room->name, ptr_link->src) == 0))
     {
         ptr = *origin;
-        ft_printf("ptr_link->src is:%s\n", ptr_link->src);
         while (ft_strcmp(ptr_link->src, ptr->name) != 0)
             ptr = ptr->next;
         ptr->visited = 1;
@@ -85,27 +79,27 @@ t_path           *optimised_path(t_lem *lem, t_path *path)
     ptr_path = path;
     append = NULL;
 
-    //debug tool
-    t_path     *wala;
-    t_line      *wolo;
+    if (loop >= lem->ants + lem->short_path_num - 1)
+    {
+        //debug tool
+        t_path     *wala;
+        t_line      *wolo;
 
-    wala = path;
-    ft_printf("+--------------+\nstep:%d\n", loop);
-    while (wala != NULL)
-    {
-        wolo = wala->line;
-        while (wolo != NULL)
+        wala = path;
+        ft_printf("+--------------+\nthis is for the return path\n");
+        while (wala != NULL)
         {
-            ft_printf("%s-", wolo->line);
-            wolo = wolo->next;
+            wolo = wala->line;
+            while (wolo != NULL)
+            {
+                ft_printf("%s-", wolo->line);
+                wolo = wolo->next;
+            }
+            ft_printf("\n");
+            wala = wala->next;
         }
-        ft_printf("\n");
-        wala = wala->next;
-    }
-    ft_printf("+--------------+\n");
-    //end debug tool
-    if (loop > lem->ants + lem->short_path_num - 1)
-    {
+        ft_printf("+--------------+\n");
+        ///end debug tool
         ft_printf("finished looping\n");
         return (path);
     }
@@ -133,20 +127,22 @@ t_path           *optimised_path(t_lem *lem, t_path *path)
     loop++;
     free_path(&path);
     optimised_path(lem, append);
-    return (NULL);
+    return (NULL); //wut
 }
 
 void            solver(t_lem *lem)
 {
     t_path      *path;
+    t_path      *ret;
 
     path = NULL;
     lem->left_ants = lem->ants;
     new_path(&path, lem->start_room->name);
     lem->start_room->visited = 1;
-    ft_printf("total loop:%d\n", lem->ants + lem->short_path_num - 1);
-    path = optimised_path(lem, path);
-    if (path == NULL)
+    ft_printf("total loop:%d\n", lem->left_ants + lem->short_path_num - 1);
+    ret = optimised_path(lem, path);
+    //then add all the path which got t_path->end = 1;
+    if (ret == NULL)
     {	//debug tool
 		t_room *ptr;
 		for (ptr = lem->room;ptr != NULL;ptr = ptr->next)
@@ -156,9 +152,10 @@ void            solver(t_lem *lem)
         exit (0);
     }
     //debug
+    ft_printf("not nulll\n");
     t_path  *ptr;
     t_line  *ptr_line;
-    ptr = path;
+    ptr = ret;
     while (ptr != NULL)
     {
         if (ptr->end == 1)
