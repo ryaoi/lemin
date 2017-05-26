@@ -25,11 +25,26 @@ void     not_valid_input(t_lem *lem)
     exit(EXIT_FAILURE);
 }
 
+static int  ft_str_isdigit(char *line)
+{
+    int     i;
+
+    i = 0;
+    while (line[i] != '\0')
+    {
+        if (ft_isdigit(line[i]) == 0)
+            return (0);
+        i++;
+    }
+    return (1);
+}
+
 void    check_ants(t_lem *lem, char *line)
 {
-    if (line != NULL && line[0] != '-')
+    if (line != NULL && line[0] != '-' && ft_str_isdigit(line) == 1)
 		lem->ants = ft_atoi(line);
-	if (lem->ants <= 0 || line == NULL)
+	if (lem->ants <= 0 || line == NULL || ft_str_isdigit(line) == 0
+        || lem->ants > 50000)
 	{
         ft_strdel(&line);
         ft_printf("Error\n");

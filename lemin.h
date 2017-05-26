@@ -99,5 +99,6 @@ void        		copy_add_path(t_path **begin, t_path *old, char *room);
 void        		free_path(t_path **origin);
 void            	solver(t_lem *lem);
 void        		copy_path(t_path **begin, t_path *old);
+int             	total_path(t_lem *lem, t_path *path);
 
 #endif

@@ -12,42 +12,31 @@
 
 #include "lemin.h"
 
-static char		*valid_link(char *cmp, t_link *ptr_link, t_room **origin, t_lem *lem)
+static char		*valid_link(char *cmp, t_link *ptr_link, t_room **origin,
+                            t_lem *lem)
 {
-    t_room		*ptr;
-
 	if ((ft_strcmp(cmp, ptr_link->src) == 0 &&
 		check_name_visited(ptr_link->dest, *origin) == 0)
         || (ft_strcmp(cmp, ptr_link->src) == 0 &&
             ft_strcmp(lem->end_room->name, ptr_link->dest) == 0))
-    {
-        ptr = *origin;
-        while (ft_strcmp(ptr_link->dest, ptr->name) != 0)
-            ptr = ptr->next;
         return (ptr_link->dest);
-    }
 	if ((ft_strcmp(cmp, ptr_link->dest) == 0 &&
 		check_name_visited(ptr_link->src, *origin) == 0)
         || (ft_strcmp(cmp, ptr_link->dest) == 0 &&
             ft_strcmp(lem->end_room->name, ptr_link->src) == 0))
-    {
-        ptr = *origin;
-        while (ft_strcmp(ptr_link->src, ptr->name) != 0)
-            ptr = ptr->next;
         return (ptr_link->src);
-    }
 	return (NULL);
 }
 
-static char		*valid_link_visited(char *cmp, t_link *ptr_link, t_room **origin,
-                                    t_lem *lem)
+static char		*valid_link_visited(char *cmp, t_link *ptr_link,
+                                    t_room **origin, t_lem *lem)
 {
     t_room		*ptr;
+    char        *result;
 
-	if ((ft_strcmp(cmp, ptr_link->src) == 0 &&
-		check_name_visited(ptr_link->dest, *origin) == 0)
-        || (ft_strcmp(cmp, ptr_link->src) == 0 &&
-            ft_strcmp(lem->end_room->name, ptr_link->dest) == 0))
+    if (!(result = valid_link(cmp, ptr_link, origin, lem)))
+        return (NULL);
+	if (ft_strcmp(ptr_link->dest, result) == 0)
     {
         ptr = *origin;
         while (ft_strcmp(ptr_link->dest, ptr->name) != 0)
@@ -55,10 +44,7 @@ static char		*valid_link_visited(char *cmp, t_link *ptr_link, t_room **origin,
         ptr->visited = 1;
         return (ptr_link->dest);
     }
-	if ((ft_strcmp(cmp, ptr_link->dest) == 0 &&
-		check_name_visited(ptr_link->src, *origin) == 0)
-        || (ft_strcmp(cmp, ptr_link->dest) == 0 &&
-            ft_strcmp(lem->end_room->name, ptr_link->src) == 0))
+	if (ft_strcmp(ptr_link->src, result) == 0)
     {
         ptr = *origin;
         while (ft_strcmp(ptr_link->src, ptr->name) != 0)
@@ -106,22 +92,6 @@ t_path           *optimised_path(t_lem *lem, t_path *path)
     free_path(&path);
     return (optimised_path(lem, append));
 }
-int             total_path(t_lem *lem, t_path *path)
-{
-    t_path      *ptr;
-    int         ret;
-
-    ret = 0;
-    ptr = path;
-    while (ptr != NULL)
-    {
-        if (ptr->step < lem->left_ants + lem->short_path_num - 1
-            || ptr->step == lem->short_path_num)
-            ret++;
-        ptr = ptr->next;
-    }
-    return (ret);
-}
 
 void            solver(t_lem *lem)
 {
@@ -135,17 +105,8 @@ void            solver(t_lem *lem)
     ft_printf("total loop:%d\n", lem->left_ants + lem->short_path_num - 1);
     // this should be less than 65507
     ret = optimised_path(lem, path);
-    //then add all the path which got t_path->end = 1;
-    if (ret == NULL)
-    {	//debug tool
-		t_room *ptr;
-		for (ptr = lem->room;ptr != NULL;ptr = ptr->next)
-			ft_printf("room:%-10s\tstart:%d\tend:%d\tvisited:%d\n", ptr->name, ptr->start, ptr->end, ptr->visited);
-		//debug end
-        ft_printf("got null and this is not good\n");
-        exit (0);
-    }
-    //debug
+
+    //debug tool
     t_path  *ptr;
     t_line  *ptr_line;
     ptr = ret;
@@ -165,6 +126,7 @@ void            solver(t_lem *lem)
         ptr = ptr->next;
     }
     //end debug
+
     lem->exited_ants = 0;
     while (lem->exited_ants != lem->ants)
     {
