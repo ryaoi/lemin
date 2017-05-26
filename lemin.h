@@ -65,6 +65,7 @@ typedef	struct		s_lem
 	int				left_ants;
 	int				short_path_num;
 	int				total_path;
+	int				turn;
 	t_room			*room;
 	t_link			*link;
 	t_line			*sentence;
