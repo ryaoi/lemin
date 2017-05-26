@@ -47,6 +47,7 @@ void 		init_start(t_lem *lem)
 	t_room	*ptr;
 	char	*tmp;
 
+	//wtf fix this shit
 	ptr = lem->room;
 	while (ptr->start != 1)
 	 	ptr = ptr->next;

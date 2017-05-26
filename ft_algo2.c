@@ -112,11 +112,8 @@ void            solver(t_lem *lem)
     lem->exited_ants = 0;
     new_path(&path, lem->start_room->name);
     lem->start_room->visited = 1;
-    ft_printf("total loop:%d\n", lem->left_ants + lem->short_path_num);
     // this should be less than 65507
     path = optimised_path(lem, path);
-    sort_path(&path, lem);
-
     //debug tool
     t_path  *w;
     t_line  *e;
@@ -132,14 +129,16 @@ void            solver(t_lem *lem)
                 else if (e->next != NULL)
                     ft_printf("%s(%d)---", e->line, e->ants);
                 else
-                    ft_printf("%s(%d)---", e->line, 0);
+                    ft_printf("%s(%d)", e->line, 0);
                 e = e->next;
             }
             ft_printf("\n");
         w = w->next;
     }
     //end debug
-
+    ft_printf("sort-----------");
+    sort_path(&path, lem);
+    ft_printf("sorted\n");
     lem->turn = 1;
     while (lem->exited_ants != lem->ants)
     {
@@ -200,7 +199,7 @@ void            solver(t_lem *lem)
                     else if (e->next != NULL)
                         ft_printf("%s(%d)---", e->line, e->ants);
                     else
-                        ft_printf("%s(%d)---", e->line, lem->exited_ants);
+                        ft_printf("%s(%d)", e->line, lem->exited_ants);
                     e = e->next;
                 }
                 ft_printf("\n");
