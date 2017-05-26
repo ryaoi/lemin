@@ -38,20 +38,6 @@ void        new_path(t_path **begin, char *start)
     new->ptr_end = new->line;
 }
 
-void        add_path(t_path **path, char *room)
-{
-    t_line  *ptr;
-
-    ptr = (*path)->line;
-    while (ptr != NULL)
-        ptr = ptr->next;
-    if (!(ptr = malloc(sizeof(t_line))))
-        exit(EXIT_FAILURE);
-    ptr->next = NULL;
-    ptr->line = ft_strdup(room);
-    (*path)->ptr_end = ptr;
-}
-
 static void copying_second(t_line *ptr_old, t_path **ptr_path)
 {
     t_line  *ptr;
@@ -61,6 +47,7 @@ static void copying_second(t_line *ptr_old, t_path **ptr_path)
         exit(EXIT_FAILURE);
     (ptr)->next = NULL;
     (ptr)->line = ft_strdup(ptr_old->line);
+    ptr->ants = 0;
     ptr_next = NULL;
     ptr_old = ptr_old->next;
     (*ptr_path)->line = ptr;
@@ -69,6 +56,7 @@ static void copying_second(t_line *ptr_old, t_path **ptr_path)
         if (!((ptr_next) = malloc(sizeof(t_line))))
             exit(EXIT_FAILURE);
         (ptr_next)->next = NULL;
+        ptr_next->ants = 0;
         (ptr_next)->line = ft_strdup(ptr_old->line);
         ptr->next = ptr_next;
         ptr_next = NULL;
@@ -114,6 +102,7 @@ static void copying(t_line *ptr_old, char *room,
         exit(EXIT_FAILURE);
     (ptr)->next = NULL;
     (ptr)->line = ft_strdup(ptr_old->line);
+    (ptr)->ants = 0;
     ptr_next = NULL;
     ptr_old = ptr_old->next;
     (*ptr_path)->line = ptr;
@@ -124,6 +113,7 @@ static void copying(t_line *ptr_old, char *room,
         (ptr_next)->next = NULL;
         (ptr_next)->line = ft_strdup(ptr_old->line);
         ptr->next = ptr_next;
+        (ptr_next)->ants = 0;
         ptr_next = NULL;
         ptr = ptr->next;
         ptr_old = ptr_old->next;
@@ -131,6 +121,7 @@ static void copying(t_line *ptr_old, char *room,
     if (!((ptr_next) = malloc(sizeof(t_line))))
         exit(EXIT_FAILURE);
     ptr_next->line = ft_strdup(room);
+    (ptr_next)->ants = 0;
     ptr_next->next = NULL;
     ptr->next = ptr_next;
     (*ptr_path)->ptr_end = ptr_next;
@@ -159,28 +150,4 @@ void        copy_add_path(t_path **begin, t_path *old, char *room)
     }
     ptr_old = old->line;
     copying(ptr_old, room, &new);
-}
-
-void        free_path(t_path **origin)
-{
-    t_line  *ptr;
-    t_path  *ptr_path;
-    t_path  *ptr_path_next;
-    t_line  *ptr_next;
-
-    ptr_path = *origin;
-    while (ptr_path != NULL)
-    {
-        ptr_path_next = ptr_path->next;
-        ptr = ptr_path->line;
-        while (ptr != NULL)
-        {
-            ptr_next = ptr->next;
-            free(ptr->line);
-            free(ptr);
-            ptr = ptr_next;
-        }
-        free(ptr_path);
-        ptr_path = ptr_path_next;
-    }
 }

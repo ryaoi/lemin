@@ -1,0 +1,16 @@
+2
+##start
+q
+a
+z
+w
+d
+##end
+x
+q-a
+a-z
+z-x
+q-w
+w-d
+d-x
+

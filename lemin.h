@@ -36,6 +36,7 @@ typedef struct		s_link
 typedef struct		s_line
 {
 	char			*line;
+	int				ants;
 	struct s_line	*next;
 }					t_line;
 
@@ -53,6 +54,7 @@ typedef struct		s_path
 	struct s_path	*next;
 	int				end;
 	int				step;
+	int				order;
 	t_line			*ptr_end;
 }					t_path;
 
@@ -62,6 +64,7 @@ typedef	struct		s_lem
 	int				exited_ants;
 	int				left_ants;
 	int				short_path_num;
+	int				total_path;
 	t_room			*room;
 	t_link			*link;
 	t_line			*sentence;
@@ -94,11 +97,11 @@ void				free_line(t_line **begin);
 void        		print_all_line(t_line *sentence);
 int					check_name_visited(char *name, t_room *origin);
 void        		new_path(t_path **begin, char *start);
-void        		add_path(t_path **path, char *room);
 void        		copy_add_path(t_path **begin, t_path *old, char *room);
 void        		free_path(t_path **origin);
 void            	solver(t_lem *lem);
 void        		copy_path(t_path **begin, t_path *old);
-int             	total_path(t_lem *lem, t_path *path);
+int             	total_path(t_path *path);
+void        		sort_path(t_path **origin, t_lem *lem);
 
 #endif
