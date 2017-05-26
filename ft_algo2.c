@@ -55,16 +55,32 @@ static char		*valid_link_visited(char *cmp, t_link *ptr_link,
 	return (NULL);
 }
 
+static void     linkers(t_lem *lem, t_path *ptr_path, t_path **append)
+{
+    t_link      *ptr_link;
+
+    ptr_link = lem->link;
+    while (ptr_link != NULL)
+    {
+        if (valid_link(ptr_path->ptr_end->line, ptr_link, &(lem->room), lem)
+            != NULL)
+        {
+            copy_add_path(append, ptr_path,
+                        valid_link_visited(ptr_path->ptr_end->line,
+                        ptr_link, &(lem->room), lem));
+        }
+        ptr_link = ptr_link->next;
+    }
+}
+
 t_path           *optimised_path(t_lem *lem, t_path *path)
 {
     static int  loop = 0;
-    t_link      *ptr_link;
     t_path      *ptr_path;
     t_path      *append;
 
     ptr_path = path;
     append = NULL;
-
     if (loop >= lem->ants + lem->short_path_num - 1)
         return (path);
     while (ptr_path != NULL)
@@ -76,16 +92,7 @@ t_path           *optimised_path(t_lem *lem, t_path *path)
             ptr_path = ptr_path->next;
             continue;
         }
-        ptr_link = lem->link;
-        while (ptr_link != NULL)
-        {
-            if (valid_link(ptr_path->ptr_end->line, ptr_link, &(lem->room), lem) != NULL)
-            {
-                copy_add_path(&append, ptr_path, valid_link_visited(ptr_path->ptr_end->line,
-                            ptr_link, &(lem->room), lem));
-            }
-            ptr_link = ptr_link->next;
-        }
+        linkers(lem, ptr_path, &append);
         ptr_path = ptr_path->next;
     }
     loop++;
