@@ -76,17 +76,6 @@ int				main(void)
 		exit(0);
 	}
 	assign_start_end_room(&lem);
-	init_start(&lem);
-	/*
-	//printing tool
-	t_room	*ptr;
-	for (ptr = lem.room;ptr != NULL;ptr = ptr->next)
-		ft_printf("room:%-10s\tstart:%d\tend:%d\tvisited:%d\n", ptr->name, ptr->start, ptr->end, ptr->visited);
-	t_link *ptr_link;
-	for (ptr_link = lem.link;ptr_link != NULL;ptr_link = ptr_link->next)
-		ft_printf("src:%10s --- dest:%-10s\n", ptr_link->src, ptr_link->dest);
-	//end printing tool
-	*/
 	if (check_start_end(lem.room) == 1 && check_link_start_end(&lem) == 1)
 	{
 		//debug tool

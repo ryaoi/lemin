@@ -106,6 +106,22 @@ t_path           *optimised_path(t_lem *lem, t_path *path)
     free_path(&path);
     return (optimised_path(lem, append));
 }
+int             total_path(t_lem *lem, t_path *path)
+{
+    t_path      *ptr;
+    int         ret;
+
+    ret = 0;
+    ptr = path;
+    while (ptr != NULL)
+    {
+        if (ptr->step < lem->left_ants + lem->short_path_num - 1
+            || ptr->step == lem->short_path_num)
+            ret++;
+        ptr = ptr->next;
+    }
+    return (ret);
+}
 
 void            solver(t_lem *lem)
 {
@@ -149,5 +165,12 @@ void            solver(t_lem *lem)
         ptr = ptr->next;
     }
     //end debug
-    //checker if theres any room that are doubled
+    lem->exited_ants = 0;
+    while (lem->exited_ants != lem->ants)
+    {
+        ft_printf("ants left:%d\n", lem->exited_ants);
+        //go for it
+        lem->exited_ants += total_path(lem, ret); // modify this to neg
+    }
+    free_path(&ret);
 }

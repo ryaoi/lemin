@@ -92,6 +92,7 @@ int			check_link_start_end(t_lem *lem)
 {
 	t_room	*ptr;
 
+	init_start(lem);
 	ptr = lem->room;
 	tick_visited(&(lem->room), lem->link, lem->room, lem->end_room);
 	while (ptr != NULL)
