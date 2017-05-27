@@ -6,7 +6,7 @@
 /*   By: ryaoi <ryaoi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 16:16:33 by ryaoi             #+#    #+#             */
-/*   Updated: 2017/05/24 16:16:35 by ryaoi            ###   ########.fr       */
+/*   Updated: 2017/05/27 03:40:22 by ryaoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ void		free_line(t_line **begin)
 	}
 }
 
-void        print_all_line(t_line *sentence)
+void		print_all_line(t_line *sentence)
 {
-    t_line  *ptr;
+	t_line	*ptr;
 
-    ptr = sentence;
-    while (ptr != NULL)
-    {
-        ft_printf("%s\n", ptr->line);
-        ptr = ptr->next;
-    }
+	ptr = sentence;
+	while (ptr != NULL)
+	{
+		ft_printf("%s\n", ptr->line);
+		ptr = ptr->next;
+	}
 }

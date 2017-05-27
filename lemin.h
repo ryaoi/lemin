@@ -6,14 +6,14 @@
 /*   By: ryaoi <ryaoi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/17 17:00:07 by ryaoi             #+#    #+#             */
-/*   Updated: 2017/05/22 16:34:10 by ryaoi            ###   ########.fr       */
+/*   Updated: 2017/05/27 03:43:34 by ryaoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEMIN_H
 # define LEMIN_H
 
-#include "libft/libft.h"
+# include "libft/libft.h"
 
 typedef struct		s_room
 {
@@ -44,8 +44,8 @@ typedef struct		s_line
 
 typedef struct		s_tick
 {
-	t_link	    *ptr_link;
-	t_room	    *dest_room;
+	t_link		*ptr_link;
+	t_room		*dest_room;
 	t_line		*ptr_recur;
 	t_line		*ptr_name;
 }					t_tick;
@@ -86,30 +86,30 @@ int					valid_parse_room(t_lem *lem, char *line, int *room_def);
 int					check_start_end(t_room *begin);
 int					check_exist_link(char *str1, char *str2, t_link *link);
 int					check_link_start_end(t_lem *lem);
-void 				assign_start_end_room(t_lem *lem);
-void     			not_valid_input(t_lem *lem);
-void    			check_ants(t_lem *lem, char *line);
-void 				reset_visited(t_lem *lem);
+void				assign_start_end_room(t_lem *lem);
+void				not_valid_input(t_lem *lem);
+void				check_ants(t_lem *lem, char *line);
+void				reset_visited(t_lem *lem);
 int					exist_room(t_room *origin, char *name);
 int					shortest_path_num(t_lem *lem);
-void 				init_start(t_lem *lem);
+void				init_start(t_lem *lem);
 t_room				*give_the_room(char *name,
 					t_link *ptr_link, t_room *origin);
 void				new_line(t_line **begin, char *line);
 void				free_line(t_line **begin);
-void        		print_all_line(t_line *sentence);
+void				print_all_line(t_line *sentence);
 int					check_name_visited(char *name, t_room *origin);
-void        		new_path(t_path **begin, char *start);
-void        		copy_add_path(t_path **begin, t_path *old, char *room);
-void        		free_path(t_path **origin);
-void            	solver(t_lem *lem);
-void        		copy_path(t_path **begin, t_path *old);
-int             	total_path(t_path *path);
-void        		sort_path(t_path **origin, t_lem *lem);
-void        		move_left(t_path **path, t_lem *lem);
-void        		print_ants(t_path *path, t_lem *lem);
-void     			msg_error(void);
-int        	 		ft_str_isdigit(char *line);
-void 				connecting_room(t_room **new, t_room **begin);
+void				new_path(t_path **begin, char *start);
+void				copy_add_path(t_path **begin, t_path *old, char *room);
+void				free_path(t_path **origin);
+void				solver(t_lem *lem);
+void				copy_path(t_path **begin, t_path *old);
+int					total_path(t_path *path);
+void				sort_path(t_path **origin, t_lem *lem);
+void				move_left(t_path **path, t_lem *lem);
+void				print_ants(t_path *path, t_lem *lem);
+void				msg_error(void);
+int					ft_str_isdigit(char *line);
+void				connecting_room(t_room **new, t_room **begin);
 
 #endif
