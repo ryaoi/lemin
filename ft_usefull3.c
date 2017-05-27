@@ -20,7 +20,7 @@ void		solver_loop(t_lem *lem, t_path *path)
 	while (lem->exited_ants != lem->ants)
 	{
 		if (lem->opt_v == 1)
-			ft_printf("\n[turn:%d]\n", lem->turn);
+			ft_printf("[turn:%d]\n", lem->turn);
 		counter = 1;
 		while (lem->total_path + 1 != counter && lem->exited_ants != lem->ants)
 		{
