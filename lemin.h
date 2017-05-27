@@ -20,6 +20,8 @@ typedef struct		s_room
 	char			*name;
 	int				start;
 	int				end;
+	int				x;
+	int				y;
 	int				visited;
 	int				ant;
 	struct s_room	*next;
@@ -106,5 +108,7 @@ int             	total_path(t_path *path);
 void        		sort_path(t_path **origin, t_lem *lem);
 void        		move_left(t_path **path, t_lem *lem);
 void        		print_ants(t_path *path, t_lem *lem);
+void     			msg_error(void);
+int        	 		ft_str_isdigit(char *line);
 
 #endif

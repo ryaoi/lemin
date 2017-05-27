@@ -12,6 +12,12 @@
 
 #include "lemin.h"
 
+void     msg_error(void)
+{
+    ft_printf("Error\n");
+    exit(EXIT_FAILURE);
+}
+
 void     not_valid_input(t_lem *lem)
 {
     if (check_start_end(lem->room) == 1)
@@ -25,7 +31,7 @@ void     not_valid_input(t_lem *lem)
     exit(EXIT_FAILURE);
 }
 
-static int  ft_str_isdigit(char *line)
+int         ft_str_isdigit(char *line)
 {
     int     i;
 

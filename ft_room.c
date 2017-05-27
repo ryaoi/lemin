@@ -22,6 +22,14 @@ void		new_room(t_room **begin, char *line, int start, int end)
 	if (!(new = malloc(sizeof(t_room))))
 		exit(EXIT_FAILURE);
 	new->name = ft_strdup(tab[0]);
+	if (tab[1] != 0 && ft_str_isdigit(tab[1]) == 1)
+		new->x = ft_atoi(tab[1]);
+	else
+		msg_error();
+	if (tab[2] != 0 && ft_str_isdigit(tab[2]) == 1)
+		new->y = ft_atoi(tab[2]);
+	else
+		msg_error();
 	new->start = start;
 	new->end = end;
 	new->visited = 0;
@@ -56,15 +64,30 @@ void		free_room(t_room **begin)
 
 int			exist_room(t_room *origin, char *name)
 {
-	t_room *ptr;
+	t_room 	*ptr;
+	char	**tab;
+	int		check_xy;
 
+	tab = ft_strsplit(name, ' ');
+	check_xy = 0;
+	if (ft_strchr(tab[0], '-') == NULL)
+	{
+		if (tab[1] == 0)
+			msg_error();
+		if (tab[2] == 0)
+			msg_error();
+		check_xy = 1;
+	}
 	ptr = origin;
 	while (ptr != NULL)
 	{
-		if (ft_strcmp(ptr->name, name) == 0)
+		if (ft_strcmp(ptr->name, tab[0]) == 0 ||
+			((check_xy == 1) && ft_atoi(tab[1]) == ptr->x
+			&& ft_atoi(tab[2]) == ptr->y))
 			return (1);
 		ptr = ptr->next;
 	}
+	ft_str2del(&tab);
 	return (0);
 }
 

@@ -12,7 +12,7 @@
 
 #include "lemin.h"
 
-void			get_room_tube(t_lem *lem, char *line)
+static void		get_room_tube(t_lem *lem, char *line)
 {
 	int			room_def;
 	int			start;
@@ -42,11 +42,11 @@ void			get_room_tube(t_lem *lem, char *line)
 				end = 0;
 			}
 			else if (exist_room(lem->room, line) == 1 && room_def == 0)
-				ft_printf("Can't duplicate a room\n");
+				msg_error();
 			else if (ft_strchr(line, '-') == NULL && room_def == 1)
-				ft_printf("You can not define a room anymore\n");
+				msg_error();
 			else if (valid_parse_room(lem, line, &room_def) == 0)
-				ft_printf("Invalid syntax\n");
+				msg_error();
 			ft_strdel(&line);
 		}
 	}
@@ -63,12 +63,10 @@ int				main(void)
 	lem.room_nb = 0;
 	lem.sentence = NULL;
 	lem.link = NULL;
-	//lem.room = NULL;
 	get_next_line(0, &line);
 	check_ants(&lem, line);
 	new_line(&(lem.sentence), line);
 	ft_strdel(&line);
-	//erase after
 	get_room_tube(&lem, line);
 	if (lem.link == NULL || lem.room == NULL)
 	{
