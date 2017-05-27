@@ -6,16 +6,11 @@
 /*   By: ryaoi <ryaoi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/24 13:05:05 by ryaoi             #+#    #+#             */
-/*   Updated: 2017/05/25 15:37:28 by ryaoi            ###   ########.fr       */
+/*   Updated: 2017/05/27 03:20:50 by ryaoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
-
-//not left right
-//need to find the shortest path in int
-//then search if any other path has the number of path > number of ant + shortest path - 1
-//if both start defieerently and end differently then its good
 
 static int		init_and_end(t_line **ptr_recur, t_line *ptr, t_room *end,
 							t_line **ptr_name)
@@ -46,12 +41,6 @@ static int		tick_visited(t_line *ptr, t_link *link, t_room *origin,
 	t_tick		tick;
 	static int	etape = 0;
 
-/*
-	ft_printf("+------------+\n");
-	for (tick.ptr_name = ptr; tick.ptr_name != NULL; tick.ptr_name=tick.ptr_name->next)
-		ft_printf("elemets are:%s\n", tick.ptr_name->line);
-	ft_printf("+------------+\n");
-*/
 	if (init_and_end(&(tick.ptr_recur), ptr, end, &(tick.ptr_name)) == 1)
 		return (etape);
 	while ((tick.ptr_name) != NULL)

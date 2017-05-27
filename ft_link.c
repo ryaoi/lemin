@@ -6,7 +6,7 @@
 /*   By: ryaoi <ryaoi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/17 18:00:19 by ryaoi             #+#    #+#             */
-/*   Updated: 2017/05/22 16:36:13 by ryaoi            ###   ########.fr       */
+/*   Updated: 2017/05/27 03:24:11 by ryaoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ int			check_exist_link(char *str1, char *str2, t_link *link)
 	return (0);
 }
 
-static void tick_visited(t_room **ptr, t_link *link, t_room *origin, t_room *end)
+static void	tick_visited(t_room **ptr, t_link *link,
+						t_room *origin, t_room *end)
 {
 	t_link	*ptr_link;
 	t_room	*dest_room;
@@ -77,8 +78,8 @@ static void tick_visited(t_room **ptr, t_link *link, t_room *origin, t_room *end
 	(*ptr)->visited = 1;
 	while (ptr_link != NULL)
 	{
-		if (ft_strcmp((*ptr)->name,ptr_link->src) == 0 ||
-			ft_strcmp((*ptr)->name,ptr_link->dest) == 0)
+		if (ft_strcmp((*ptr)->name, ptr_link->src) == 0 ||
+			ft_strcmp((*ptr)->name, ptr_link->dest) == 0)
 		{
 			dest_room = give_the_room((*ptr)->name, ptr_link, origin);
 			if (dest_room->visited == 0)

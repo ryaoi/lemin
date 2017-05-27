@@ -110,5 +110,6 @@ void        		move_left(t_path **path, t_lem *lem);
 void        		print_ants(t_path *path, t_lem *lem);
 void     			msg_error(void);
 int        	 		ft_str_isdigit(char *line);
+void 				connecting_room(t_room **new, t_room **begin);
 
 #endif

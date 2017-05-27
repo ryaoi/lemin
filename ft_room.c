@@ -6,7 +6,7 @@
 /*   By: ryaoi <ryaoi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/17 18:00:19 by ryaoi             #+#    #+#             */
-/*   Updated: 2017/05/18 16:13:50 by ryaoi            ###   ########.fr       */
+/*   Updated: 2017/05/27 03:25:06 by ryaoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void		new_room(t_room **begin, char *line, int start, int end)
 {
 	t_room	*new;
-	t_room	*ptr;
 	char	**tab;
 
 	tab = ft_strsplit(line, ' ');
@@ -35,15 +34,7 @@ void		new_room(t_room **begin, char *line, int start, int end)
 	new->visited = 0;
 	new->ant = 0;
 	new->next = NULL;
-	if (*begin == NULL)
-		*begin = new;
-	else
-	{
-		ptr = *begin;
-		while (ptr->next != NULL)
-			ptr = ptr->next;
-		ptr->next = new;
-	}
+	connecting_room(&new, begin);
 	ft_str2del(&tab);
 }
 
@@ -64,7 +55,7 @@ void		free_room(t_room **begin)
 
 int			exist_room(t_room *origin, char *name)
 {
-	t_room 	*ptr;
+	t_room	*ptr;
 	char	**tab;
 	int		check_xy;
 
@@ -111,7 +102,7 @@ int			check_room(char *str1, char *str2, t_room *list)
 	return ((check1 == 1 && check2 == 1));
 }
 
-void 		assign_start_end_room(t_lem *lem)
+void		assign_start_end_room(t_lem *lem)
 {
 	t_room	*ptr;
 

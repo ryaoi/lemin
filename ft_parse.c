@@ -6,15 +6,15 @@
 /*   By: ryaoi <ryaoi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/18 17:13:20 by ryaoi             #+#    #+#             */
-/*   Updated: 2017/05/18 19:19:43 by ryaoi            ###   ########.fr       */
+/*   Updated: 2017/05/27 03:32:29 by ryaoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lemin.h"
 
-int			valid_parse_room(t_lem *lem, char *line, int *room_def)
+int				valid_parse_room(t_lem *lem, char *line, int *room_def)
 {
-	char	**tab;
+	char		**tab;
 
 	if (line[0] != '-' && line[ft_strlen(line) - 1] != '-'
 		&& check_one_line(line) == 1)
