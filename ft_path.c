@@ -105,18 +105,7 @@ static void	copying(t_line *ptr_old, char *room,
 	ptr_next = NULL;
 	ptr_old = ptr_old->next;
 	(*ptr_path)->line = ptr;
-	while (ptr_old != NULL)
-	{
-		if (!((ptr_next) = malloc(sizeof(t_line))))
-			exit(EXIT_FAILURE);
-		(ptr_next)->next = NULL;
-		(ptr_next)->line = ft_strdup(ptr_old->line);
-		ptr->next = ptr_next;
-		(ptr_next)->ants = 0;
-		ptr_next = NULL;
-		ptr = ptr->next;
-		ptr_old = ptr_old->next;
-	}
+	loop_for_copying(&ptr_old, &ptr, &ptr_next);
 	if (!((ptr_next) = malloc(sizeof(t_line))))
 		exit(EXIT_FAILURE);
 	ptr_next->line = ft_strdup(room);

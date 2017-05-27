@@ -21,11 +21,11 @@ void		new_room(t_room **begin, char *line, int start, int end)
 	if (!(new = malloc(sizeof(t_room))))
 		exit(EXIT_FAILURE);
 	new->name = ft_strdup(tab[0]);
-	if (tab[1] != 0 && ft_str_isdigit(tab[1]) == 1)
+	if (tab[1] != 0 && ft_str_isdigit(tab[1]) == 1 && ft_atoi(tab[1]) >= 0)
 		new->x = ft_atoi(tab[1]);
 	else
 		msg_error();
-	if (tab[2] != 0 && ft_str_isdigit(tab[2]) == 1)
+	if (tab[2] != 0 && ft_str_isdigit(tab[2]) == 1 && ft_atoi(tab[2]) >= 0)
 		new->y = ft_atoi(tab[2]);
 	else
 		msg_error();

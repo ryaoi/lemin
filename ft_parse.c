@@ -25,9 +25,9 @@ int				valid_parse_room(t_lem *lem, char *line, int *room_def)
 			new_link(&(lem->link), tab[0], tab[1]);
 		else if (check_room(tab[0], tab[1], lem->room) == 1 &&
 			check_exist_link(tab[0], tab[1], lem->link) == 1)
-			ft_printf("Already exist...\n");
+			msg_error();
 		else
-			ft_printf("Invalid name\n");
+			msg_error();
 		ft_str2del(&tab);
 		*room_def = 1;
 		return (1);

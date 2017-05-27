@@ -6,7 +6,7 @@
 /*   By: ryaoi <ryaoi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/17 17:00:07 by ryaoi             #+#    #+#             */
-/*   Updated: 2017/05/27 03:43:34 by ryaoi            ###   ########.fr       */
+/*   Updated: 2017/05/27 14:29:02 by ryaoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef	struct		s_lem
 	int				short_path_num;
 	int				total_path;
 	int				turn;
+	int				opt_v;
 	t_room			*room;
 	t_link			*link;
 	t_line			*sentence;
@@ -111,5 +112,9 @@ void				print_ants(t_path *path, t_lem *lem);
 void				msg_error(void);
 int					ft_str_isdigit(char *line);
 void				connecting_room(t_room **new, t_room **begin);
+void				option_verbose(t_path *path, t_lem *lem);
+void				solver_loop(t_lem *lem, t_path *path);
+void				loop_for_copying(t_line **ptr_old,
+					t_line **ptr, t_line **ptr_next);
 
 #endif

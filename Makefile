@@ -22,6 +22,7 @@ SRC		= main.c \
 		  ft_room.c \
 		  ft_usefull1.c \
 		  ft_usefull2.c \
+		  ft_usefull3.c \
 		  ft_error.c \
 		  ft_algo1.c \
 		  ft_algo2.c \

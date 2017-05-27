@@ -6,7 +6,7 @@
 /*   By: ryaoi <ryaoi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/17 17:02:40 by ryaoi             #+#    #+#             */
-/*   Updated: 2017/05/27 03:20:15 by ryaoi            ###   ########.fr       */
+/*   Updated: 2017/05/27 13:48:38 by ryaoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,19 @@ static void		processing_checker(t_lem *lem)
 		not_valid_input(lem);
 }
 
-int				main(void)
+int				main(int argc, char **argv)
 {
 	t_lem		lem;
 	char		*line;
 
 	line = NULL;
 	lem.room_nb = 0;
+	lem.opt_v = 0;
 	lem.sentence = NULL;
 	lem.link = NULL;
+	lem.room = NULL;
+	if (argc == 2 && ft_strcmp(argv[1], "-v") == 0)
+		lem.opt_v = 1;
 	get_ants_number(&lem, line);
 	get_room_tube(&lem, line);
 	if (lem.link == NULL || lem.room == NULL)

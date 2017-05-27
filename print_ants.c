@@ -6,7 +6,7 @@
 /*   By: ryaoi <ryaoi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 03:51:41 by ryaoi             #+#    #+#             */
-/*   Updated: 2017/05/27 03:54:34 by ryaoi            ###   ########.fr       */
+/*   Updated: 2017/05/27 13:41:03 by ryaoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,51 @@ void		print_ants(t_path *path, t_lem *lem)
 		search_and_print(path, smallest, &i, total);
 		smallest++;
 	}
+}
+
+static void	printing_for_verbose(t_path *w, t_line *e, t_lem *lem)
+{
+	int		i;
+
+	if (e == w->line)
+	{
+		ft_printf("%s(", e->line);
+		i = lem->ants - lem->left_ants + 1;
+		while (i < lem->ants)
+		{
+			ft_printf("%d", i);
+			if (i < lem->ants - 1)
+				ft_printf(",");
+			i++;
+		}
+		ft_printf(")---");
+	}
+	else if (e->next != NULL)
+		ft_printf("%s(%d)---", e->line, e->ants);
+	else
+		ft_printf("%s(%d)", e->line, w->ptr_end->ants);
+}
+
+void		option_verbose(t_path *path, t_lem *lem)
+{
+	t_path	*w;
+	t_line	*e;
+
+	if (lem->opt_v == 0)
+		return ;
+	w = path;
+	ft_printf("------------------------------\n");
+	while (w != NULL)
+	{
+		e = w->line;
+		ft_printf("order:%d\tstep:%d\t", w->order, w->step);
+		while (e != NULL)
+		{
+			printing_for_verbose(w, e, lem);
+			e = e->next;
+		}
+		ft_printf("\n");
+		w = w->next;
+	}
+	ft_printf("------------------------------\n");
 }
