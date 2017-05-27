@@ -78,17 +78,11 @@ int				main(void)
 	assign_start_end_room(&lem);
 	if (check_start_end(lem.room) == 1 && check_link_start_end(&lem) == 1)
 	{
-		//debug tool
-		t_room *ptr;
-		for (ptr = lem.room;ptr != NULL;ptr = ptr->next)
-			ft_printf("room:%-10s\tstart:%d\tend:%d\tvisited:%d\n", ptr->name, ptr->start, ptr->end, ptr->visited);
-		//debug end
-
-		ft_printf("good\n");
 		print_all_line(lem.sentence);
 		reset_visited(&lem);
 		shortest_path_num(&lem);
 		reset_visited(&lem);
+		ft_printf("\n");
 		solver(&lem);
 	}
 	else
@@ -98,6 +92,5 @@ int				main(void)
 	free_line(&(lem.sentence));
 	free_room(&(lem.room));
 	free_link(&(lem.link));
-	//while (1);
 	return (0);
 }

@@ -104,5 +104,7 @@ void            	solver(t_lem *lem);
 void        		copy_path(t_path **begin, t_path *old);
 int             	total_path(t_path *path);
 void        		sort_path(t_path **origin, t_lem *lem);
+void        		move_left(t_path **path, t_lem *lem);
+void        		print_ants(t_path *path, t_lem *lem);
 
 #endif

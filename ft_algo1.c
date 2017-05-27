@@ -87,7 +87,6 @@ int				shortest_path_num(t_lem *lem)
 	lem->room->visited = 1;
 	lem->short_path_num = tick_visited(ptr_line, lem->link, lem->room,
 										lem->end_room);
-	ft_printf("shortest path(int) is:%d\n", lem->short_path_num);
 	while (ptr != NULL)
 	{
 		if (ptr->end == 1 && ptr->visited == 1)

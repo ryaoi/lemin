@@ -103,11 +103,11 @@ t_path           *optimised_path(t_lem *lem, t_path *path)
 void            solver(t_lem *lem)
 {
     t_path      *path;
-    t_line      *ptr_line;
     t_path      *ptr_path;
     int         counter;
 
     path = NULL;
+    assign_start_end_room(lem);
     lem->left_ants = lem->ants;
     lem->exited_ants = 0;
     new_path(&path, lem->start_room->name);
@@ -115,6 +115,7 @@ void            solver(t_lem *lem)
     // this should be less than 65507
     path = optimised_path(lem, path);
     //debug tool
+    /*
     t_path  *w;
     t_line  *e;
     w = path;
@@ -136,57 +137,24 @@ void            solver(t_lem *lem)
         w = w->next;
     }
     //end debug
-    ft_printf("sort-----------");
+    */
     sort_path(&path, lem);
-    ft_printf("sorted\n");
     lem->turn = 1;
     while (lem->exited_ants != lem->ants)
     {
-        ft_printf("[turn:%d]\n", lem->turn);
+    //    ft_printf("\n[turn:%d]\n", lem->turn);
         counter = 1;
         while (lem->total_path + 1 != counter && lem->exited_ants != lem->ants)
         {
             ptr_path = path;
             while(ptr_path->order != counter)
                 ptr_path = ptr_path->next;
-            //ft_printf("[path info]\n");
-            if (lem->left_ants > 0 && ptr_path->end == 1)
-            {
-                ptr_line = ptr_path->line->next;
-                while (ptr_line->next->next != NULL && ptr_line->ants > 0)
-                {
-                    ptr_line = ptr_line->next;
-                }
-                if (ptr_line->next->next == NULL && ptr_line->ants > 0)
-                    (lem->exited_ants)++;
-                else
-                    ptr_line->ants = 1;
-                (lem->left_ants)--;
-            }
-            else if (ptr_path->end == 1)
-            {
-                ptr_line = ptr_path->line->next;
-                while (ptr_line->next->next != NULL && ptr_line->ants < 1)
-                    ptr_line = ptr_line->next;
-                if (ptr_line->next->next == NULL)
-                {
-                    ptr_line->ants = 0;
-                    (lem->exited_ants)++;
-                }
-                else
-                {
-                    ptr_line->ants = 0;
-                    ptr_line = ptr_line->next;
-                    while (ptr_line->next->next != NULL && ptr_line->ants > 0)
-                        ptr_line = ptr_line->next;
-                    if (ptr_line->next->next == NULL)
-                        (lem->exited_ants)++;
-                    else
-                        ptr_line->ants = 1;
-                }
-            }
+            move_left(&ptr_path, lem);
+            if (ptr_path->ptr_end->ants != 0)
+                (lem->exited_ants)++;
             counter++;
             //debug
+            /*
             w = path;
             while (w != NULL)
             {
@@ -195,22 +163,30 @@ void            solver(t_lem *lem)
                 while (e != NULL)
                 {
                     if (e == w->line)
-                        ft_printf("%s(%d)---", e->line, lem->left_ants);
+                    {
+                        ft_printf("%s(", e->line);
+                        int i;
+                        for (i = lem->ants - lem->left_ants + 1;i < lem->ants;i++)
+                            ft_printf("%d, ", i);
+                        ft_printf(")---");
+                    }
                     else if (e->next != NULL)
                         ft_printf("%s(%d)---", e->line, e->ants);
                     else
-                        ft_printf("%s(%d)", e->line, lem->exited_ants);
+                        ft_printf("%s(%d)", e->line, ptr_path->ptr_end->ants);
                     e = e->next;
                 }
                 ft_printf("\n");
                 w = w->next;
+                ptr_path->ptr_end->ants = 0;
             }
             sleep(1);
             // end debug
+            */
         }
-        //print the map Lx-y
+        print_ants(path, lem);
         (lem->turn)++;
     }
-    ft_printf("[final result:%d]\n", lem->turn - 1);
+    //ft_printf("[final result:%d]\n", lem->turn - 1);
     free_path(&path);
 }

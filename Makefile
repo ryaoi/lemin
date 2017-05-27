@@ -26,7 +26,8 @@ SRC		= main.c \
 		  ft_algo1.c \
 		  ft_algo2.c \
 		  ft_line.c \
-		  ft_path.c
+		  ft_path.c \
+		  print_ants.c
 
 OBJ		= $(SRC:.c=.o)
 

@@ -77,3 +77,45 @@ void        sort_path(t_path **origin, t_lem *lem)
         stock++;
     }
 }
+
+static void add_ants(t_path **path, t_lem *lem)
+{
+    t_line  *ptr;
+
+    ptr = (*path)->line->next;
+    if (lem->left_ants != 0 && (*path)->step <
+        lem->left_ants + lem->short_path_num)
+    {
+        ptr->ants = lem->ants - lem->left_ants + 1;
+        (lem->left_ants)--;
+    }
+    else
+        ptr->ants = 0;
+}
+
+void        move_left(t_path **path, t_lem *lem)
+{
+    t_line  *ptr;
+    int     stock;
+    int     tmp;
+
+    ptr = (*path)->line->next;
+    stock = ptr->ants;
+    if (ptr == (*path)->ptr_end)
+    {
+        (*path)->ptr_end->ants = stock;
+        add_ants(path, lem);
+        return ;
+
+    }
+    ptr = ptr->next;
+    while (ptr->next != NULL)
+    {
+        tmp = ptr->ants;
+        ptr->ants = stock;
+        stock = tmp;
+        ptr = ptr->next;
+    }
+    ptr->ants = stock;
+    add_ants(path, lem);
+}
