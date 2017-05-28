@@ -84,10 +84,10 @@ def main():
 
 	with open('./visu/output/cmd.txt', 'w') as f:
 		sys.stdout = f
-		print "%run map.py"
+		print "%run ./output/map.py"
 		i = 1
 		while i < step: 
-			print "%run step" + str(i) + ".py"
+			print "%run ./output/step" + str(i) + ".py"
 			i += 1
 		sys.stdout = sys.__stdout__
 	
