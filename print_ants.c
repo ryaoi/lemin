@@ -6,7 +6,7 @@
 /*   By: ryaoi <ryaoi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/27 03:51:41 by ryaoi             #+#    #+#             */
-/*   Updated: 2017/05/27 13:41:03 by ryaoi            ###   ########.fr       */
+/*   Updated: 2017/05/28 14:33:59 by ryaoi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,10 @@ static void	printing_for_verbose(t_path *w, t_line *e, t_lem *lem)
 	{
 		ft_printf("%s(", e->line);
 		i = lem->ants - lem->left_ants + 1;
-		while (i < lem->ants)
+		while (i < lem->ants + 1)
 		{
 			ft_printf("%d", i);
-			if (i < lem->ants - 1)
+			if (i < lem->ants)
 				ft_printf(",");
 			i++;
 		}
