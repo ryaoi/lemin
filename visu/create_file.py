@@ -62,25 +62,26 @@ def main():
 	sys.stdout = sys.__stdout__
 	print "[*]Created map.py!"
 
+	gnl = ""
 	for line in sys.stdin:
-		if (line.startswith("[turn")):
-			print("Launch this program without verbose mode!")
-			exit()
-		copy = deepcopy(graph)
-		ssplit = line.strip().split()
-		for word in ssplit:
-			room = word.split('-')
-			if (end_room != room[1]):
-				copy['nodes'][room[1]] = {'color': 0xA21F4D, 'size':1.0}
-		with open('./visu/output/step' + str(step) + '.py', 'w') as f:
-			sys.stdout = f
-			print "import jgraph"
-			sys.stdout.write('graph = ')
-			print (copy)
-			print "jgraph.draw(graph, z=200, size=(800, 600), directed= False, shader= \"" + shader + "\")"
+		if (line.startswith("L")):
+			copy = deepcopy(graph)
+			ssplit = line.strip().split()
+			for word in ssplit:
+				room = word.split('-')
+				if (end_room != room[1]):
+					copy['nodes'][room[1]] = {'color': 0xA21F4D, 'size':1.0}
+			with open('./visu/output/step' + str(step) + '.py', 'w') as f:
+				sys.stdout = f
+				print "import jgraph"
+				sys.stdout.write('graph = ')
+				print (copy)
+				print "jgraph.draw(graph, z=200, size=(800, 600), directed= False, shader= \"" + shader + "\")"
 			sys.stdout = sys.__stdout__
 			print "[*]Created step" + str(step) + ".py!"
 			step += 1
+		else:
+			gnl += line
 
 	with open('./visu/output/cmd.txt', 'w') as f:
 		sys.stdout = f
@@ -93,6 +94,10 @@ def main():
 	
 	print ("\n[copy and paste this to the notebook!]")
 	call(["cat", "./visu/output/cmd.txt"])
+
+	if gnl != "":
+		print "\n[verbose info]"
+		print (gnl)
 
 if __name__ == '__main__':
 	main()
