@@ -65,22 +65,13 @@ static int		tick_visited(t_line *ptr, t_link *link, t_room *origin,
 	return (etape);
 }
 
-int				shortest_path_num(t_lem *lem)
+void			shortest_path_num(t_lem *lem)
 {
-	t_room		*ptr;
 	t_line		*ptr_line;
 
-	ptr = lem->room;
 	ptr_line = NULL;
 	new_line(&ptr_line, lem->room->name);
 	lem->room->visited = 1;
 	lem->short_path_num = tick_visited(ptr_line, lem->link, lem->room,
 										lem->end_room);
-	while (ptr != NULL)
-	{
-		if (ptr->end == 1 && ptr->visited == 1)
-			return (1);
-		ptr = ptr->next;
-	}
-	return (lem->short_path_num);
 }

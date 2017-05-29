@@ -92,7 +92,7 @@ void				not_valid_input(t_lem *lem);
 void				check_ants(t_lem *lem, char *line);
 void				reset_visited(t_lem *lem);
 int					exist_room(t_room *origin, char *name);
-int					shortest_path_num(t_lem *lem);
+void				shortest_path_num(t_lem *lem);
 void				init_start(t_lem *lem);
 t_room				*give_the_room(char *name,
 					t_link *ptr_link, t_room *origin);
