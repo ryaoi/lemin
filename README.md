@@ -8,6 +8,10 @@ Send the mithy ants from the start to end!
 
 `./lem-in [-v]`
 
+or
+
+`./lem-in [-v] < example/files`
+
 with option -v it will give you more information about what really is happening inside my code.
 
 1st step:
